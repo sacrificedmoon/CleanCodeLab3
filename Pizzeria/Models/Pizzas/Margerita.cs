@@ -15,11 +15,5 @@ namespace Pizzeria.Models.Pizzas
         {
             return 85;
         }
-
-        public static List<string> Toppings()
-        {
-            List<string> toppings = new List<string>() { "Tomatosauce", "Cheese" };
-            return toppings;
-        }
     }
 }

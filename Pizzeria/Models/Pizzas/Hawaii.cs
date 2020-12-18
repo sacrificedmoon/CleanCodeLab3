@@ -13,13 +13,6 @@ namespace Pizzeria.Models.Pizzas
         public int GetPrice()
         {
             return 95;
-        }
-
-        public static List<string> Toppings()
-        {
-            List<string> toppings = new List<string>() { "Tomatosauce", "Cheese", "Ham", "Pinapple" };
-            return toppings;
-        }
-        
+        }     
     }
 }

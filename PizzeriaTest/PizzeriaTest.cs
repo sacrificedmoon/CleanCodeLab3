@@ -10,7 +10,7 @@ using System.IO;
 namespace PizzeriaTest
 {
     [TestClass]
-    public class UnitTest1
+    public class PizzeriaTest
     {
         public MainMenu mainMenu = MainMenu.Instance;
 
@@ -64,7 +64,7 @@ namespace PizzeriaTest
             currentOrder.ItemsOrdered.Add(new Margerita());
             currentOrder.ItemsOrdered.Add(new Hawaii());
             currentOrder.ItemsOrdered.Add(new Sprite());
-            var result = mainMenu.CalculateCost(currentOrder);
+            var result = mainMenu.CalculateOrderCost(currentOrder);
             var expected = 205;
             Assert.IsTrue(result == expected);
         }

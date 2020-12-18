@@ -2,12 +2,12 @@
 
 namespace Pizzeria
 {
-    class Program
+    public class Pizzeria
     {
         static void Main(string[] args)
         {
             MainMenu mainMenu = MainMenu.Instance;
-            mainMenu.RunMenu();
+            mainMenu.RunMainMenu();
         }
     }
 }

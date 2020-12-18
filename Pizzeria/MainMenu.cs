@@ -21,11 +21,11 @@ namespace Pizzeria
             get { return instance; }
         }
 
-        public void RunMenu()
+        public void RunMainMenu()
         {
             while (MainMenuIsRunning)
             {
-                
+                ClearConsole();
                 Console.WriteLine("Choose an option: \n" +
                     "1.Place an order \n" +
                     "2.View orders \n" +
@@ -34,7 +34,7 @@ namespace Pizzeria
                 {
                     case "1":
                         currentOrder = new Order();
-                        PlaceOrder();
+                        PlaceOrderMenu();
                         break;
                     case "2":
                         ViewOrders();
@@ -46,11 +46,11 @@ namespace Pizzeria
             }
         }
 
-        public void PlaceOrder()
+        public void PlaceOrderMenu()
         {
             MainMenuIsRunning = false;
-            Console.Clear();
-            if(currentOrder.ItemsOrdered.Count() > 0)
+            ClearConsole();
+            if (currentOrder.ItemsOrdered.Count() > 0)
             {
                 WriteOrderToConsole();
             }
@@ -62,33 +62,33 @@ namespace Pizzeria
             switch (Console.ReadLine())
             {
                 case "1":
-                    OrderPizza();
+                    OrderPizzaMenu();
                     return;
                 case "2":
-                    OrderSoda();
+                    OrderSodaMenu();
                     return;
                 case "x":
                     currentOrder.CanceledOrder = true;
-                    currentOrder.Cost = CalculateCost(currentOrder);
+                    currentOrder.Cost = CalculateOrderCost(currentOrder);
                     Orders.Add(currentOrder);
                     MainMenuIsRunning = true;
-                    RunMenu();
+                    RunMainMenu();
                     return;
                 case "y":
                     currentOrder.PlacedOrder = true;
-                    currentOrder.Cost = CalculateCost(currentOrder);
+                    currentOrder.Cost = CalculateOrderCost(currentOrder);
                     Orders.Add(currentOrder);
                     MainMenuIsRunning = true;
-                    RunMenu();
+                    RunMainMenu();
                     return;
                 default:
                     Console.WriteLine("Please write the number of the item you'd like to order");
-                    PlaceOrder();
+                    PlaceOrderMenu();
                     return;
             }
         }
 
-        public void OrderPizza()
+        public void OrderPizzaMenu()
         {
             Console.WriteLine("Which pizza do you want? You can add extra toppings after you've chosen one.\n" +
                 $"1. Margerita - Tomatosauce, cheese - 85 sek\n" +
@@ -96,14 +96,14 @@ namespace Pizzeria
                 $"3. Kebabpizza - Tomatosauce, cheese, kebab, mushrooms, onion, feferoni, lettuce, tomato, kebabsauce - 105sek \n" +
                 $"4. Quatro Stagioni - Tomatosauce, cheese, ham, shrimp, mussels, mushrooms, artichoke - 115sek ");
             var item = PizzaFactory.CreatePizza(Console.ReadLine());
-            Console.Clear();
+            ClearConsole();
             Console.WriteLine($"You chose a {item.GetName()}");
             AddToppingsMenu(item);
         }
 
-        public void OrderSoda()
+        public void OrderSodaMenu()
         {
-            Console.Clear();
+            ClearConsole();
             Console.WriteLine("What drink do you want?\n" +
                 "1.Coca Cola - 20sek\n" +
                 "2.Fanta - 20sek\n" +
@@ -111,12 +111,12 @@ namespace Pizzeria
             var drink = DrinkFactory.CreateSoda(Console.ReadLine());
             Console.WriteLine($"You chose a {drink.GetName()}");
             currentOrder.ItemsOrdered.Add(drink);
-            PlaceOrder();
+            PlaceOrderMenu();
         }
 
         public void AddToppingsMenu(IOrderable pizza)
         {
-            Console.Clear();
+            ClearConsole();
             Console.WriteLine($"You have a {pizza.GetName()} \n" +
                 "\nWhat toppings do you want?\n" +
                 "1.Artichoke - 15 sek\n" +
@@ -179,7 +179,7 @@ namespace Pizzeria
                     return;
                 case "y":
                     currentOrder.ItemsOrdered.Add(pizza);
-                    PlaceOrder();
+                    PlaceOrderMenu();
                     return;
                 default:
                     Console.WriteLine("Please write the number of the topping you want.");
@@ -190,7 +190,7 @@ namespace Pizzeria
 
         public void WriteOrderToConsole()
         {
-            int totalCost = CalculateCost(currentOrder);
+            int totalCost = CalculateOrderCost(currentOrder);
             Console.WriteLine($"Your order costs: {totalCost}");
             Console.WriteLine("Your order is: ");
             foreach (var item in currentOrder.ItemsOrdered)
@@ -199,7 +199,7 @@ namespace Pizzeria
             }
         }
 
-        public int CalculateCost(Order currentOrder)
+        public int CalculateOrderCost(Order currentOrder)
         {
             int totalCost = 0;
             foreach (var item in currentOrder.ItemsOrdered)
@@ -211,10 +211,10 @@ namespace Pizzeria
 
         public void ViewOrders()
         {
-            Console.Clear();
+            ClearConsole();
             foreach (var placedOrder in Orders)
             {
-                Console.WriteLine($"Order canceled: {placedOrder.CanceledOrder}");
+                Console.WriteLine($"Order was canceled: {placedOrder.CanceledOrder}");
                 Console.WriteLine($"Order was placed: {placedOrder.PlacedOrder}");
                 Console.WriteLine("Order contains:");
                 foreach (var item in placedOrder.ItemsOrdered)
@@ -227,6 +227,11 @@ namespace Pizzeria
 
             Console.ReadKey();
             MainMenuIsRunning = true;
+        }
+
+        public void ClearConsole()
+        {
+            Console.Clear();
         }
     }
 }
